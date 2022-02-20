@@ -1,5 +1,5 @@
 <h1>Data Access Exercise 2</h1>
 
-#Contributor:
+Contributor:
 
-Antonio Alaia, Maria Ascolese
+<i>Antonio Alaia, Maria Ascolese<i>
