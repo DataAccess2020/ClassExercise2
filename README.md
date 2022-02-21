@@ -1,5 +1,14 @@
-<h1>Data Access Exercise 2</h1>
+## Data Access 2022: Class Exercise 2
 
-Contributors:
+### 
+- Scraping and storing data from online website (beppegrillo.it)
+- Understand and build a web spider using <i>Rcrawler</i>
 
-<i>Antonio Alaia, Maria Ascolese<i>
+### Contributors
+
+- Antonio Alaia
+- Maria Ascolese
+
+### Structure and personal tasks:
+
+(work in progress)
