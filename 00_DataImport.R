@@ -46,3 +46,26 @@ polite <- function(from_url, to_html, my_email, my_agent = R.Version()$version.s
 polite(from_url = "https://beppegrillo.it/un-mare-di-plastica-ci-sommergera/", 
        to_html = here::here("grillo_plastica.html"), 
        my_email = "antonio.alaia@studenti.unimi.it")
+
+#Now we have the downloaded in local and so we can procede to scrape the links we need:
+
+
+all_links <- XML::getHTMLLinks(here::here("grillo_plastica.html"))
+
+#here we use the regex to select only the website intern links
+
+grillo_links <- (stringr::str_extract(all_links, pattern = "^https://beppegrillo.it.*")) 
+
+
+length(unique(grillo_links))
+
+#we noticed that there are a lot of duplicates, so we use "unique" and then "na.omit" to remove NAs
+
+grillo_links <- unique(unlist(strsplit(grillo_links, " ")))
+grillo_links <- na.omit(grillo_links)
+
+
+grillo <- data.frame(grillo_links) #here's our data frame with 29 links!
+
+view(grillo_links)
+
