@@ -69,3 +69,6 @@ grillo <- data.frame(grillo_links) #here's our data frame with 29 links!
 
 view(grillo_links)
 
+##Tasks 1,2 and 3 completed!
+
+
