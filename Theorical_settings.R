@@ -10,6 +10,10 @@
 #So, web spiders are internet bots that automatically download webpages following hyperlinks.
 #The situation in the previous task was different because we just had to scrape without crawling.
 
+#Rcrawler could have solved the previous task with just few lines of code like:
+
+# Rcrawler(Website = "", no_cores = ,  no_conn = , ExtractCSSPat = c(""))
+
 #Rcrawler have a function called "ContentScraper" that needs different arguments: 
 #for our usual tasks we can would use Url, CssPatterns and PatternsName.
 
