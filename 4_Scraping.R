@@ -18,7 +18,10 @@ prova <- "https://beppegrillo.it/category/archivio/2016/"
 library(rvest)
 
 link <- read_html(prova) %>%
-  html_elements(css = ".td_module_10 .td-module-title")  #I got the selectors with SelectorGadget
+  html_elements(css = ".td_module_10 .td-module-title") %>% #Got the selectors with SelectorGadget
+  html_elements("a") %>%   #Select the anchor
+  html_attr("href")   #Attribute for links
+
 
 #If I print(link), I see all 10 links for the 10 posts in the first page. The code works
 
@@ -30,11 +33,18 @@ vector <- vector()
 
 for (i in seq_along(url)){
   vector <- read_html(url[i]) %>% 
-    html_elements(css = ".td_module_10 .td-module-title")
+    html_elements(css = ".td_module_10 .td-module-title") %>%
+    html_elements("a") %>%
+    html_attr("href")
   
   links <- append(links, vector)
   
   Sys.sleep(0.2)
 }
 
-#I end up with links, a list of 470 elements
+#I end up with links, a vector of 470 elements
+
+
+
+#b. For each single linked blog post, download the page as a file and sys .sleep () a little.
+
