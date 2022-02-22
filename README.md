@@ -1,5 +1,5 @@
 <h1>Data Access Exercise 2</h1>
 
-Contributors:
-
-<i>Antonio Alaia, Maria Ascolese<i>
+### 
+- Scraping and storing data from online website (beppegrillo.it)
+- For loop and multiple pages scraping of archive from our target (beppegrillo.it)
