@@ -72,3 +72,18 @@ polite <- function(from_url, to_html, my_email, my_agent = R.Version()$version.s
     cat("Try Again")
   }
 }
+
+
+#Now I can proceed with the polite download
+
+dir.create("archive_470")  #Create the folder where I store the 470 files
+
+for (i in seq_along(links)) {
+  cat(i, " ")
+  
+  polite(from_url = links[i], 
+         to_html = here::here("archive_470", str_c("post_",i,".html")), 
+         my_email = "maria.ascolese@studenti.unimi.it")
+  
+  Sys.sleep(0.3)
+}
