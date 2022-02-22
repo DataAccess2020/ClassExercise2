@@ -12,5 +12,5 @@
 
 ### Structure and personal tasks :clipboard:
 
-- *1), 2) and 3)*: Antonio Alaia
+- *1), 2), 3), 5)*: Antonio Alaia
 - *4) (.a, .b, .c), 5) and final markdown report*: Maria Ascolese
