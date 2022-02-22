@@ -3,6 +3,8 @@ title: "Class Exercise 2"
 author: "Maria Ascolese, Antonio Alaia"
 date: "22/2/2022"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -16,6 +18,29 @@ We found that beppegrillo.it/robots.txt gives us a 404-Not Found page! Given tha
 
 2) __Check out the following link: http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/. Download it using rcurl: :getURL() to download the page.__
 
+```{r}
+all_links <- XML::getHTMLLinks(here::here("grillo_plastica.html"))
+
+```
+
+Then we used the regex to select only the website internal links
+
+```{r message=FALSE, warning=FALSE}
+grillo_links <- (stringr::str_extract(all_links, pattern = "^https://beppegrillo.it.*")) 
 
 
+length(unique(grillo_links))
+
+grillo_links <- unique(unlist(strsplit(grillo_links, " ")))
+
+grillo_links <- na.omit(grillo_links)
+```
+
+Also, we noticed that there were a lot of duplicates, so we used "unique" and then "na.omit" to remove NAs.
+
+```{r}
+grillo <- data.frame(grillo_links) 
+```
+
+Here's our data frame with 29 links!
 

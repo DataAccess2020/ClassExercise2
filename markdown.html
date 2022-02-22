@@ -180,6 +180,19 @@ pre code {
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Check out the following link: <a href="http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/" class="uri">http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/</a>. Download it using rcurl: :getURL() to download the page.</strong></li>
 </ol>
+<pre class="r"><code>all_links &lt;- XML::getHTMLLinks(here::here(&quot;grillo_plastica.html&quot;))</code></pre>
+<p>Then we used the regex to select only the website internal links</p>
+<pre class="r"><code>grillo_links &lt;- (stringr::str_extract(all_links, pattern = &quot;^https://beppegrillo.it.*&quot;)) 
+
+
+length(unique(grillo_links))</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>grillo_links &lt;- unique(unlist(strsplit(grillo_links, &quot; &quot;)))
+
+grillo_links &lt;- na.omit(grillo_links)</code></pre>
+<p>Also, we noticed that there were a lot of duplicates, so we used “unique” and then “na.omit” to remove NAs.</p>
+<pre class="r"><code>grillo &lt;- data.frame(grillo_links) </code></pre>
+<p>Here’s our data frame with 29 links!</p>
 </div>
 
 
