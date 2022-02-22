@@ -87,3 +87,19 @@ for (i in seq_along(links)) {
   
   Sys.sleep(0.3)
 }
+
+
+#c. For each downloaded page, scrape the main text.
+#Ask yourself what happens if a page contains no text.
+
+i <- 0
+text <- vector()
+vector <- vector()
+
+for (i in 1:470){
+  vector <- read_html(here::here("archive_470", str_c("post_",i,".html"))) %>%
+    html_elements(css = ".td-post-content") %>%   #Again, got this with SelectorGadget
+    html_text(trim = F)
+  
+  text <- append(text, vector)
+}
