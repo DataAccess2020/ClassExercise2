@@ -12,7 +12,14 @@
 
 #Rcrawler could have solved the previous task with just few lines of code like:
 
-# Rcrawler(Website = "", no_cores = ,  no_conn = , ExtractCSSPat = c(""))
+ Rcrawler(
+  website = #the url as starting point
+  RequestDelay = #similar to sys.sleep, uses a timer to manage the requests
+  Useragent = #polite downloading by giving infos about you
+  Obeyrobots = #polite download by checking the robots.txt page
+  ExtractCSSPat = c(".address") #that works like "css=" in rvest
+  DIR = #storage point
+ )
 
 #Rcrawler have a function called "ContentScraper" that needs different arguments: 
 #for our usual tasks we can would use Url, CssPatterns and PatternsName.
