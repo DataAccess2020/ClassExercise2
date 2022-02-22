@@ -3,4 +3,8 @@
 #The package Rcrawler allows us to do two tasks at the same time: crawling and scraping.
 #Crawling is the process of collecting while browsing different links from a starting point, 
 #scraping is collecting and storing data from the webpages.
-#The situation in the previous situation was different because 
+#The situation in the previous situation was different because we had just scraped without crawling.
+
+#Rcrawler have a function called "ContentScraper" that needs different arguments: 
+#for our usual tasks we can would use Url, CssPatterns and PatternsName 
+
