@@ -1,0 +1,21 @@
+---
+title: "Class Exercise 2"
+author: "Maria Ascolese, Antonio Alaia"
+date: "22/2/2022"
+output: html_document
+---
+
+
+### Five Tasks
+
+
+1) __Inspect the robots.txt.__
+
+We found that beppegrillo.it/robots.txt gives us a 404-Not Found page! Given that, we could proceed with the download of the website; to download the website page politely we created a function that downloads while giving our email and R version details to the webmaster.
+
+
+2) __Check out the following link: http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/. Download it using rcurl: :getURL() to download the page.__
+
+
+
+
