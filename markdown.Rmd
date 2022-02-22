@@ -205,3 +205,9 @@ The structure of a web spider with Rcrawler would be:
 "Work-thread manager"that  handles multi-threading and parallel computing.
 "Data extraction" ta component for parsing and extracting web page contents.
 "Index" that helps us store contents of a crawled page.
+
+
+******************************
+To complete this project, we did __41 commits__, we opened and resolved __3 issues__, we had __4 pull requests__ successfully merged in main.
+
+The commits were: *21 by Antonio Alaia* and *14 by Maria Ascolese*
