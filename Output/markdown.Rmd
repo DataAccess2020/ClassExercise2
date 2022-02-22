@@ -208,6 +208,6 @@ The structure of a web spider with Rcrawler would be:
 
 
 ******************************
-To complete this project, we did __41 commits__, we opened and resolved __3 issues__, we had __4 pull requests__ successfully merged in main.
+To complete this project, we did __46 commits__, we opened and resolved __3 issues__, we had __4 pull requests__ successfully merged in main.
 
-The commits were: *21 by Antonio Alaia* and *14 by Maria Ascolese*
+The commits were: *29 by Antonio Alaia* and *17 by Maria Ascolese*
