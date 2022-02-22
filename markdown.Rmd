@@ -24,6 +24,7 @@ We found that beppegrillo.it/robots.txt gives us a 404-Not Found page! Given tha
 2) __Check out the following link: http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/. Download it using rcurl: :getURL() to download the page.__
 
 ```{r}
+
 all_links <- XML::getHTMLLinks(here::here("grillo_plastica.html"))
 
 ```
@@ -42,7 +43,7 @@ all_links <- XML::getHTMLLinks(here::here("grillo_plastica.html"))
 3) __Create a data frame with all the HTML links in the page. You can use rvest : : or check out the XML: :getHTMLLinks function. Then, use a regex to keep only those links that re-direct to other posts of the beppegrillo.it blog (so remove all other links).__
 
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 grillo_links <- (stringr::str_extract(all_links, pattern = "^https://beppegrillo.it.*")) 
 
 
@@ -76,5 +77,75 @@ url <- c("https://beppegrillo.it/category/archivio/2016/",
          str_c("https://beppegrillo.it/category/archivio/2016/page/", 2:47))
 
 #The first url was different than the others, as only 2:46 contained "/page/n"
+```
+
+In order to do point b, we need to get every url for the 10 posts in each page.
+
+```{r eval=FALSE, include=TRUE}
+i <- 0
+links <- vector()
+vector <- vector()
+
+library(rvest)
+
+for (i in seq_along(url)){
+  vector <- read_html(url[i]) %>% 
+    html_elements(css = ".td_module_10 .td-module-title") %>%
+    html_elements("a") %>%
+    html_attr("href")
+  
+  links <- append(links, vector)
+  
+  Sys.sleep(0.2)
+}
+```
+
+We end up with links, a vector of 470 elements
+
+
+
+__b. For each single linked blog post, download the page as a file and sys .sleep () a little.__
+
+```{r}
+#Create the function for polite download
+
+polite <- function(from_url, to_html, my_email, my_agent = R.Version()$version.string) {
+  
+  require(httr)
+  
+  stopifnot(is.character(from_url))
+  stopifnot(is.character(to_html))
+  stopifnot(is.character(my_email))
+  
+  req <- httr::GET(url = from_url, 
+                         add_headers(
+                           From = my_email, 
+                           `User-Agent` = R.Version()$version.string
+                         )
+  )
+
+  if (httr::http_status(req)$message == "Success: (200) OK") {
+    bin <- content(req, as = "raw")
+    writeBin(object = bin, con = to_html)
+  } else {
+    cat("Try Again")
+  }
+}
+```
+
+Now we can proceed with the polite download
+
+```{r eval=FALSE, include=TRUE}
+dir.create("archive_470")  #Create the folder where I store the 470 files
+
+for (i in seq_along(links)) {
+  cat(i, " ")
+  
+  polite(from_url = links[i], 
+         to_html = here::here("archive_470", str_c("post_",i,".html")), 
+         my_email = "maria.ascolese@studenti.unimi.it")
+  
+  Sys.sleep(0.3)
+}
 ```
 

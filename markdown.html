@@ -207,6 +207,61 @@ url &lt;- c(&quot;https://beppegrillo.it/category/archivio/2016/&quot;,
          str_c(&quot;https://beppegrillo.it/category/archivio/2016/page/&quot;, 2:47))
 
 #The first url was different than the others, as only 2:46 contained &quot;/page/n&quot;</code></pre>
+<p>In order to do point b, we need to get every url for the 10 posts in each page.</p>
+<pre class="r"><code>i &lt;- 0
+links &lt;- vector()
+vector &lt;- vector()
+
+library(rvest)
+
+for (i in seq_along(url)){
+  vector &lt;- read_html(url[i]) %&gt;% 
+    html_elements(css = &quot;.td_module_10 .td-module-title&quot;) %&gt;%
+    html_elements(&quot;a&quot;) %&gt;%
+    html_attr(&quot;href&quot;)
+  
+  links &lt;- append(links, vector)
+  
+  Sys.sleep(0.2)
+}</code></pre>
+<p>We end up with links, a vector of 470 elements</p>
+<p><strong>b. For each single linked blog post, download the page as a file and sys .sleep () a little.</strong></p>
+<pre class="r"><code>#Create the function for polite download
+
+polite &lt;- function(from_url, to_html, my_email, my_agent = R.Version()$version.string) {
+  
+  require(httr)
+  
+  stopifnot(is.character(from_url))
+  stopifnot(is.character(to_html))
+  stopifnot(is.character(my_email))
+  
+  req &lt;- httr::GET(url = from_url, 
+                         add_headers(
+                           From = my_email, 
+                           `User-Agent` = R.Version()$version.string
+                         )
+  )
+
+  if (httr::http_status(req)$message == &quot;Success: (200) OK&quot;) {
+    bin &lt;- content(req, as = &quot;raw&quot;)
+    writeBin(object = bin, con = to_html)
+  } else {
+    cat(&quot;Try Again&quot;)
+  }
+}</code></pre>
+<p>Now we can proceed with the polite download</p>
+<pre class="r"><code>dir.create(&quot;archive_470&quot;)  #Create the folder where I store the 470 files
+
+for (i in seq_along(links)) {
+  cat(i, &quot; &quot;)
+  
+  polite(from_url = links[i], 
+         to_html = here::here(&quot;archive_470&quot;, str_c(&quot;post_&quot;,i,&quot;.html&quot;)), 
+         my_email = &quot;maria.ascolese@studenti.unimi.it&quot;)
+  
+  Sys.sleep(0.3)
+}</code></pre>
 </div>
 
 
