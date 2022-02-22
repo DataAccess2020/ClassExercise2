@@ -1,0 +1,213 @@
+---
+title: "Class Exercise 2"
+author: "Maria Ascolese, Antonio Alaia"
+date: "22/2/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+### Five Tasks
+
+
+1) __Inspect the robots.txt.__
+
+We found that beppegrillo.it/robots.txt gives us a 404-Not Found page! Given that, we could proceed with the download of the website; to download the website page politely we created a function that downloads while giving our email and R version details to the webmaster.
+
+
+
+
+*******************
+
+
+2) __Check out the following link: http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/. Download it using rcurl: :getURL() to download the page.__
+
+```{r}
+
+all_links <- XML::getHTMLLinks(here::here("grillo_plastica.html"))
+
+```
+
+
+
+
+
+
+
+*************************
+
+
+
+
+3) __Create a data frame with all the HTML links in the page. You can use rvest : : or check out the XML: :getHTMLLinks function. Then, use a regex to keep only those links that re-direct to other posts of the beppegrillo.it blog (so remove all other links).__
+
+
+```{r}
+grillo_links <- (stringr::str_extract(all_links, pattern = "^https://beppegrillo.it.*")) 
+
+
+length(unique(grillo_links))
+
+grillo_links <- unique(unlist(strsplit(grillo_links, " ")))
+
+grillo_links <- na.omit(grillo_links)
+```
+
+Also, we noticed that there were a lot of duplicates, so we used "unique" and then "na.omit" to remove NAs.
+
+```{r}
+grillo <- data.frame(grillo_links) 
+```
+
+Here's our data frame with 29 links!
+
+
+
+
+*************************
+
+4) __Check out the following link: http://www.beppegrillo.it/category/archivio/2016/. It contains the entire blog for 2016. There are 47 pages of entries. Scrape all the posts for 2016 following this strategy:__
+__a. For each of the 47 pages, get all the links and place them into a list (or character vector). Tip: see how the URL changes to build the loop!__
+
+```{r}
+library(stringr)
+
+url <- c("https://beppegrillo.it/category/archivio/2016/",
+         str_c("https://beppegrillo.it/category/archivio/2016/page/", 2:47))
+
+#The first url was different than the others, as only 2:46 contained "/page/n"
+```
+
+In order to do point b, we need to get every url for the 10 posts in each page.
+
+```{r eval=FALSE, include=TRUE}
+i <- 0
+links <- vector()
+vector <- vector()
+
+library(rvest)
+
+for (i in seq_along(url)){
+  vector <- read_html(url[i]) %>% 
+    html_elements(css = ".td_module_10 .td-module-title") %>%
+    html_elements("a") %>%
+    html_attr("href")
+  
+  links <- append(links, vector)
+  
+  Sys.sleep(0.2)
+}
+```
+
+We end up with links, a vector of 470 elements
+
+
+
+__b. For each single linked blog post, download the page as a file and sys .sleep () a little.__
+
+```{r}
+#Create the function for polite download
+
+polite <- function(from_url, to_html, my_email, my_agent = R.Version()$version.string) {
+  
+  require(httr)
+  
+  stopifnot(is.character(from_url))
+  stopifnot(is.character(to_html))
+  stopifnot(is.character(my_email))
+  
+  req <- httr::GET(url = from_url, 
+                         add_headers(
+                           From = my_email, 
+                           `User-Agent` = R.Version()$version.string
+                         )
+  )
+
+  if (httr::http_status(req)$message == "Success: (200) OK") {
+    bin <- content(req, as = "raw")
+    writeBin(object = bin, con = to_html)
+  } else {
+    cat("Try Again")
+  }
+}
+```
+
+Now we can proceed with the polite download
+
+```{r eval=FALSE, include=TRUE}
+dir.create("archive_470")  #Create the folder where I store the 470 files
+
+for (i in seq_along(links)) {
+  cat(i, " ")
+  
+  polite(from_url = links[i], 
+         to_html = here::here("archive_470", str_c("post_",i,".html")), 
+         my_email = "maria.ascolese@studenti.unimi.it")
+  
+  Sys.sleep(0.3)
+}
+```
+
+
+****************************
+
+__c. For each downloaded page, scrape the main text. Ask yourself what happens if a page contains no text.__
+
+```{r eval=FALSE, include=TRUE}
+i <- 0
+text <- vector()
+vector <- vector()
+
+for (i in 1:470){
+  vector <- read_html(here::here("archive_470", str_c("post_",i,".html"))) %>%
+    html_elements(css = ".td-post-content") %>%   #Again, got this with SelectorGadget
+    html_text(trim = F)
+  
+  text <- append(text, vector)
+}
+```
+
+This leaves us with a large character vector containing all 470 texts. 
+
+
+
+
+**********************
+
+__5) Check out the RCrawler package and its accompanying paper. What does it mean to “crawl”? and what is it a “web spider”? H ow is this different from a scraper you have built at point 5? Inspect the package documentation and sketch how you could build a spider scraper: which function(s) should you use? With which arguments? Don't do it, just sketch and explain.__
+
+The package "Rcrawler" allows us to do two tasks at the same time: crawling and scraping.
+Crawling is the process of automatically collecting different URLS from a starting point, scraping is collecting and storing data from the webpages.
+So, web spiders are internet bots that automatically download webpages following hyperlinks.
+The situation in the previous task was different because we just had to scrape without crawling.
+
+Rcrawler could have solved the previous task with just few lines of code like:
+
+
+```{r eval=FALSE, include=TRUE}
+ Rcrawler(
+  website = #the url as starting point
+  RequestDelay = #similar to sys.sleep, uses a timer to manage the requests
+  Useragent = #polite downloading by giving infos about you
+  Obeyrobots = #polite download by checking the robots.txt page
+  ExtractCSSPat = c(".address"), #that works like "css=" in rvest
+  DIR = #storage point
+ )
+```
+
+Rcrawler have a function called "ContentScraper" that needs different arguments: for our usual tasks we can would use Url, CssPatterns and PatternsName.
+
+The structure of a web spider with Rcrawler would be:
+"HTTP requests Handler" that helps us to manage GET and POST operation for the first part of the process;
+"Link Extractor" that parses the website and gives us all the links and hyperlinks;
+"Content duplicate checker" that looks for duplicates;
+"Work-thread manager"that  handles multi-threading and parallel computing.
+"Data extraction" ta component for parsing and extracting web page contents.
+"Index" that helps us store contents of a crawled page.
+
+
+******************************
+To complete this project, we did __41 commits__, we opened and resolved __3 issues__, we had __4 pull requests__ successfully merged in main.
+
+The commits were: *21 by Antonio Alaia* and *14 by Maria Ascolese*
