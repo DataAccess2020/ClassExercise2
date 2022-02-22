@@ -13,4 +13,4 @@
 ### Structure and personal tasks :clipboard:
 
 - *1), 2), 3), 5)*: Antonio Alaia
-- *4) (.a, .b, .c), 5) and final markdown report*: Maria Ascolese
+- *4) (.a, .b, .c) and final markdown report*: Maria Ascolese
