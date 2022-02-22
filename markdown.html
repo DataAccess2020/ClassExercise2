@@ -177,11 +177,15 @@ pre code {
 <li><strong>Inspect the robots.txt.</strong></li>
 </ol>
 <p>We found that beppegrillo.it/robots.txt gives us a 404-Not Found page! Given that, we could proceed with the download of the website; to download the website page politely we created a function that downloads while giving our email and R version details to the webmaster.</p>
+<hr />
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Check out the following link: <a href="http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/" class="uri">http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/</a>. Download it using rcurl: :getURL() to download the page.</strong></li>
 </ol>
 <pre class="r"><code>all_links &lt;- XML::getHTMLLinks(here::here(&quot;grillo_plastica.html&quot;))</code></pre>
-<p>Then we used the regex to select only the website internal links</p>
+<hr />
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Create a data frame with all the HTML links in the page. You can use rvest : : or check out the XML: :getHTMLLinks function. Then, use a regex to keep only those links that re-direct to other posts of the beppegrillo.it blog (so remove all other links).</strong></li>
+</ol>
 <pre class="r"><code>grillo_links &lt;- (stringr::str_extract(all_links, pattern = &quot;^https://beppegrillo.it.*&quot;)) 
 
 
@@ -193,6 +197,7 @@ grillo_links &lt;- na.omit(grillo_links)</code></pre>
 <p>Also, we noticed that there were a lot of duplicates, so we used “unique” and then “na.omit” to remove NAs.</p>
 <pre class="r"><code>grillo &lt;- data.frame(grillo_links) </code></pre>
 <p>Here’s our data frame with 29 links!</p>
+<hr />
 </div>
 
 

@@ -16,6 +16,11 @@ editor_options:
 We found that beppegrillo.it/robots.txt gives us a 404-Not Found page! Given that, we could proceed with the download of the website; to download the website page politely we created a function that downloads while giving our email and R version details to the webmaster.
 
 
+
+
+*******************
+
+
 2) __Check out the following link: http://www.beppegrillo.it/un-mare-diplastica-ci-sommergera/. Download it using rcurl: :getURL() to download the page.__
 
 ```{r}
@@ -23,7 +28,19 @@ all_links <- XML::getHTMLLinks(here::here("grillo_plastica.html"))
 
 ```
 
-Then we used the regex to select only the website internal links
+
+
+
+
+
+
+*************************
+
+
+
+
+3) __Create a data frame with all the HTML links in the page. You can use rvest : : or check out the XML: :getHTMLLinks function. Then, use a regex to keep only those links that re-direct to other posts of the beppegrillo.it blog (so remove all other links).__
+
 
 ```{r message=FALSE, warning=FALSE}
 grillo_links <- (stringr::str_extract(all_links, pattern = "^https://beppegrillo.it.*")) 
@@ -44,3 +61,7 @@ grillo <- data.frame(grillo_links)
 
 Here's our data frame with 29 links!
 
+
+
+
+*************************
