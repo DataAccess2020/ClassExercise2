@@ -11,6 +11,14 @@
 #The situation in the previous task was different because we just had to scrape without crawling.
 
 #Rcrawler have a function called "ContentScraper" that needs different arguments: 
-#for our usual tasks we can would use Url, CssPatterns and PatternsName
+#for our usual tasks we can would use Url, CssPatterns and PatternsName.
+
+#The structure of a web spider with Rcrawler would be:
+#"HTTP requests Handler" that helps us to manage GET and POST operation for the first part of the process;
+#"Link Extractor" that parses the website and gives us all the links and hyperlinks;
+#"Content duplicate checker" that looks for duplicates;
+#"Work-thread manager"that  handles multi-threading and parallel computing.
+#"Data extraction" ta component for parsing and extracting web page contents.
+#"Index" that helps us store contents of a crawled page.
 
 
