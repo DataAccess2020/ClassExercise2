@@ -48,3 +48,27 @@ for (i in seq_along(url)){
 
 #b. For each single linked blog post, download the page as a file and sys .sleep () a little.
 
+#Create the function for polite download
+
+polite <- function(from_url, to_html, my_email, my_agent = R.Version()$version.string) {
+  
+  require(httr)
+  
+  stopifnot(is.character(from_url))
+  stopifnot(is.character(to_html))
+  stopifnot(is.character(my_email))
+  
+  req <- httr::GET(url = from_url, 
+                         add_headers(
+                           From = my_email, 
+                           `User-Agent` = R.Version()$version.string
+                         )
+  )
+  # If status == 200, extract content and save to a file:
+  if (httr::http_status(req)$message == "Success: (200) OK") {
+    bin <- content(req, as = "raw")
+    writeBin(object = bin, con = to_html)
+  } else {
+    cat("Try Again")
+  }
+}
