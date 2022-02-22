@@ -18,6 +18,23 @@ prova <- "https://beppegrillo.it/category/archivio/2016/"
 library(rvest)
 
 link <- read_html(prova) %>%
-  html_elements(css = ".td_module_10 .td-module-title")
+  html_elements(css = ".td_module_10 .td-module-title")  #I got the selectors with SelectorGadget
 
 #If I print(link), I see all 10 links for the 10 posts in the first page. The code works
+
+#Now I can do this for each url for the 47 pages. Each page has 10 internal urls
+
+i <- 0
+links <- vector()
+vector <- vector()
+
+for (i in seq_along(url)){
+  vector <- read_html(url[i]) %>% 
+    html_elements(css = ".td_module_10 .td-module-title")
+  
+  links <- append(links, vector)
+  
+  Sys.sleep(0.2)
+}
+
+#I end up with links, a list of 470 elements
