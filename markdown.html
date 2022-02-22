@@ -262,6 +262,20 @@ for (i in seq_along(links)) {
   
   Sys.sleep(0.3)
 }</code></pre>
+<hr />
+<p><strong>c. For each downloaded page, scrape the main text. Ask yourself what happens if a page contains no text.</strong></p>
+<pre class="r"><code>i &lt;- 0
+text &lt;- vector()
+vector &lt;- vector()
+
+for (i in 1:470){
+  vector &lt;- read_html(here::here(&quot;archive_470&quot;, str_c(&quot;post_&quot;,i,&quot;.html&quot;))) %&gt;%
+    html_elements(css = &quot;.td-post-content&quot;) %&gt;%   #Again, got this with SelectorGadget
+    html_text(trim = F)
+  
+  text &lt;- append(text, vector)
+}</code></pre>
+<p>This leaves us with a large character vector containing all 470 texts.</p>
 </div>
 
 
