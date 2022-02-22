@@ -198,6 +198,15 @@ grillo_links &lt;- na.omit(grillo_links)</code></pre>
 <pre class="r"><code>grillo &lt;- data.frame(grillo_links) </code></pre>
 <p>Here’s our data frame with 29 links!</p>
 <hr />
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Check out the following link: <a href="http://www.beppegrillo.it/category/archivio/2016/" class="uri">http://www.beppegrillo.it/category/archivio/2016/</a>. It contains the entire blog for 2016. There are 47 pages of entries. Scrape all the posts for 2016 following this strategy:</strong> <strong>a. For each of the 47 pages, get all the links and place them into a list (or character vector). Tip: see how the URL changes to build the loop!</strong></li>
+</ol>
+<pre class="r"><code>library(stringr)
+
+url &lt;- c(&quot;https://beppegrillo.it/category/archivio/2016/&quot;,
+         str_c(&quot;https://beppegrillo.it/category/archivio/2016/page/&quot;, 2:47))
+
+#The first url was different than the others, as only 2:46 contained &quot;/page/n&quot;</code></pre>
 </div>
 
 
